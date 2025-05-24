@@ -1,5 +1,5 @@
 {
-  "name": "puppeteer-cloud-run",
+  "name": "puppeteer-lambda",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -7,7 +7,9 @@
     "start": "node index.js"
   },
   "dependencies": {
-    "puppeteer-core": "^19.0.0",
-    "chrome-aws-lambda": "^10.0.0"
+    "puppeteer-core": "^19.0.0",  // Use puppeteer-core for AWS Lambda compatibility
+    "chrome-aws-lambda": "^10.0.0",  // The chrome-aws-lambda package for AWS Lambda environment
+    "dotenv": "^16.0.3",  // To load environment variables from a .env file
+    "express": "^4.18.2"  // Express for handling HTTP requests in your server
   }
 }
