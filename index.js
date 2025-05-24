@@ -11,7 +11,13 @@ app.get('/', async (req, res) => {
   console.log('url:',url);
   try {
     browser = await puppeteer.launch({
-      args: chromium.args,
+      args: ["--disable-setuid-sandbox",
+          "--no-sandbox",
+          "--no-zygote",
+          "--no-cache",
+          "--single-process",
+          "--disable-dev-shm-usage"
+      ],
       defaultViewport: chromium.defaultViewport,
       executablePath: await chromium.executablePath(),
       headless: chromium.headless,
