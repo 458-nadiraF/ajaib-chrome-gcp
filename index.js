@@ -9,6 +9,8 @@ app.get('/', async (req, res) => {
   const url = req.query.url || 'https://example.com';
   let browser = null;
   console.log('url:',url);
+  const chromiumPath=await chromium.executablePath();
+  console.log('path:',chromiumPath);
   try {
     browser = await puppeteer.launch({
       args: ["--disable-setuid-sandbox",
@@ -16,7 +18,8 @@ app.get('/', async (req, res) => {
           "--no-zygote",
           "--no-cache",
           "--single-process",
-          "--disable-dev-shm-usage"
+          "--disable-dev-shm-usage",
+          "--disable-gpu"
       ],
       defaultViewport: chromium.defaultViewport,
       executablePath: await chromium.executablePath(),
