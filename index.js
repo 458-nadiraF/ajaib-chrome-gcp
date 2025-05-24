@@ -1,6 +1,7 @@
 const express = require('express');
 const puppeteer = require('puppeteer-core');
 const chromium = require('chrome-aws-lambda');
+require('dotenv').config();  // Load environment variables from .env file
 
 const app = express();
 
@@ -28,7 +29,7 @@ app.get('/', async (req, res) => {
   }
 });
 
-const port = process.env.PORT || 8080;
+const port = process.env.PORT || 8080;  // Default to 8080 if not set in .env file
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
