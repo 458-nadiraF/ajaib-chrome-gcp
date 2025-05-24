@@ -1,35 +1,29 @@
 const express = require('express');
+const chromium = require('@sparticuz/chromium');
 const puppeteer = require('puppeteer-core');
-const chromium = require('chrome-aws-lambda');
-require('dotenv').config();  // Load environment variables from .env file
-
 const app = express();
+const port = process.env.PORT || 8080;
 
 app.get('/', async (req, res) => {
-  let browser;
+  const url = req.query.url || 'https://example.com';
+  let browser = null;
   try {
     browser = await puppeteer.launch({
       args: chromium.args,
-      executablePath: await chromium.executablePath,
+      defaultViewport: chromium.defaultViewport,
+      executablePath: await chromium.executablePath(),
       headless: chromium.headless,
     });
-
     const page = await browser.newPage();
-    await page.goto('https://www.example.com');
-    const title = await page.title();
-
-    res.status(200).send(`Page Title: ${title}`);
-  } catch (error) {
-    console.error('Error launching Puppeteer:', error);
-    res.status(500).send('Error launching Puppeteer');
+    await page.goto(url);
+    const screenshot = await page.screenshot({ type: 'png' });
+    res.set('Content-Type', 'image/png');
+    res.send(screenshot);
+  } catch (e) {
+    res.status(500).send(e.toString());
   } finally {
-    if (browser) {
-      await browser.close();
-    }
+    if (browser) await browser.close();
   }
 });
 
-const port = process.env.PORT || 8080;  // Default to 8080 if not set in .env file
-app.listen(port, () => {
-  console.log(`Server is running on port ${port}`);
-});
+app.listen(port, () => console.log('Server started on ' + port));
