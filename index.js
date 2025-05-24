@@ -12,7 +12,7 @@ app.get('/', async (req, res) => {
   const chromiumPath=await chromium.executablePath();
   console.log('path:',chromiumPath);
   try {
-    browser = await chromium.puppeteer.launch({
+    browser = await puppeteer.launch({
       args: ["--disable-setuid-sandbox",
           "--no-sandbox",
           "--no-zygote",
@@ -24,6 +24,7 @@ app.get('/', async (req, res) => {
       defaultViewport: chromium.defaultViewport,
       executablePath: await chromium.executablePath(),
       headless: chromium.headless,
+      ignoreHTTPSErrors: true
     });
     console.log('already initialized browser');
     const page = await browser.newPage();
