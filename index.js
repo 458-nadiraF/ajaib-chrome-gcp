@@ -5,7 +5,7 @@ const app = express();
 const port = process.env.PORT || 8080;
 
 app.get('/', async (req, res) => {
-  console.log('get called);
+  console.log('get called');
   const url = req.query.url || 'https://example.com';
   let browser = null;
   try {
