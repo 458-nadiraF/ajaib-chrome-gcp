@@ -5,6 +5,7 @@ const app = express();
 const port = process.env.PORT || 8080;
 
 app.get('/', async (req, res) => {
+  console.log('get called);
   const url = req.query.url || 'https://example.com';
   let browser = null;
   try {
@@ -20,6 +21,7 @@ app.get('/', async (req, res) => {
     res.set('Content-Type', 'image/png');
     res.send(screenshot);
   } catch (e) {
+    console.log('error in get',e.toString())
     res.status(500).send(e.toString());
   } finally {
     if (browser) await browser.close();
