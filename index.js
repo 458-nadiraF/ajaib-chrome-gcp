@@ -12,7 +12,7 @@ app.get('/', async (req, res) => {
   const chromiumPath=await chromium.executablePath();
   console.log('path:',chromiumPath);
   try {
-    browser = await puppeteer.launch({
+    browser = await chromium.puppeteer.launch({
       args: ["--disable-setuid-sandbox",
           "--no-sandbox",
           "--no-zygote",
