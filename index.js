@@ -8,6 +8,7 @@ app.get('/', async (req, res) => {
   console.log('get called');
   const url = req.query.url || 'https://example.com';
   let browser = null;
+  console.log('url:',url);
   try {
     browser = await puppeteer.launch({
       args: chromium.args,
@@ -15,7 +16,9 @@ app.get('/', async (req, res) => {
       executablePath: await chromium.executablePath(),
       headless: chromium.headless,
     });
+    console.log('already initialized browser');
     const page = await browser.newPage();
+    console.log('make new page');
     await page.goto(url);
     const screenshot = await page.screenshot({ type: 'png' });
     res.set('Content-Type', 'image/png');
